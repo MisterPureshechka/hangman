@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &51105374 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1320679498007287551, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
+  m_PrefabInstance: {fileID: 1979830256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &134390339 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7121890815280705703, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
@@ -533,6 +538,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7605329950818654018, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
   m_PrefabInstance: {fileID: 1979830256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1864887917 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8943974882603388791, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
+  m_PrefabInstance: {fileID: 1979830256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1946092870
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1824126237221996038, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1962531477680099706, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
       propertyPath: m_IsActive
@@ -797,3 +813,6 @@ MonoBehaviour:
     _keyboardUnitGO: {fileID: 1822109365}
   _endState:
     _screenNameTextArea: {fileID: 374841410}
+    _rootGO: {fileID: 134390339}
+    _stateRootGO: {fileID: 51105374}
+    _restartButton: {fileID: 1864887917}
