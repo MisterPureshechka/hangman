@@ -1,4 +1,4 @@
-using Core;
+using Data;
 
 using System;
 
@@ -8,56 +8,37 @@ using UnityEngine.UI;
 namespace FSM.States
 {
     [Serializable]
-    public class RulesState : BaseState
+    public sealed class RulesState : BaseState
     {
-        public new class Data : BaseState.Data
-        {
-            private readonly string _rules;
-            public string Rules => _rules;
-
-            private readonly string _buttonLabel;
-            public string ButtonLabel => _buttonLabel;
-
-            public Data(MainScreen mainScreen, string screenName, string rules, string buttonLabel)
-                : base(mainScreen, screenName)
-            {
-                _rules = rules;
-                _buttonLabel = buttonLabel;
-            }
-        }
+        [SerializeField] private RulesStateConfig _config;
 
         [SerializeField] private Text _rulesTextArea;
         [SerializeField] private Button _playButton;
-        [SerializeField] private GameObject _rootGO;
 
         private Text _buttonLabelTextArea;
         private Text ButtonLabelTextArea => _buttonLabelTextArea == null
             ? _buttonLabelTextArea = _playButton.GetComponentInChildren<Text>()
             : _buttonLabelTextArea;
 
-        private Data _data;
+        protected override BaseStateConfig Config => _config;
 
-        public override void OnStart(BaseState.Data data)
+        public override void OnStart(Data data)
         {
             base.OnStart(data);
 
-            _data = (Data)data;
-
-            _rulesTextArea.text = _data.Rules;
-            ButtonLabelTextArea.text = _data.ButtonLabel;
+            _rulesTextArea.text = _config.Rules;
+            ButtonLabelTextArea.text = _config.ButtonLabel;
 
             _playButton.onClick.AddListener(OnStartButtonPressed);
-
-            _rootGO.SetActive(true);
         }
 
         public override void OnEnd()
         {
-            _playButton.onClick.RemoveListener(OnStartButtonPressed);
+            base.OnEnd();
 
-            _rootGO.SetActive(false);
+            _playButton.onClick.RemoveListener(OnStartButtonPressed);
         }
 
-        private void OnStartButtonPressed() => _data.MainScreen.ChangeToGameState();
+        private void OnStartButtonPressed() => _mainScreen.ChangeToGameState();
     }
 }

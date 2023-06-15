@@ -1,4 +1,4 @@
-using Core;
+using Data;
 
 using System;
 
@@ -8,50 +8,64 @@ using UnityEngine.UI;
 namespace FSM.States
 {
     [Serializable]
-    public class EndState : BaseState
+    public sealed class EndState : BaseState
     {
-        public new class Data : BaseState.Data
+        public sealed new class Data : BaseState.Data
         {
             private readonly bool _isWin;
             public bool IsWin => _isWin;
 
-            public Data(MainScreen mainScreen, string screenName, bool isWin)
-                : base(mainScreen, screenName)
+            private readonly int _wins;
+            public int Wins => _wins;
+
+            private readonly int _fails;
+            public int Fails => _fails;
+
+            public Data(bool isWin, int wins, int fails)
             {
                 _isWin = isWin;
+                _wins = wins;
+                _fails = fails;
             }
         }
 
-        [SerializeField] private GameObject _rootGO;
+        [SerializeField] private EndStateConfig _config;
+
         [SerializeField] private GameObject _stateRootGO;
         [SerializeField] private Button _restartButton;
 
-        private Data _data;
+        [SerializeField] private Text _winFailTextArea;
+        [SerializeField] private Text _playerStatusTextArea;
+
+        private Text _buttonLabelTextArea;
+        private Text ButtonLabelTextArea => _buttonLabelTextArea == null
+            ? _buttonLabelTextArea = _restartButton.GetComponentInChildren<Text>()
+            : _buttonLabelTextArea;
+
+        protected override BaseStateConfig Config => _config;
 
         public override void OnStart(BaseState.Data data)
         {
             base.OnStart(data);
 
             _restartButton.onClick.AddListener(Restart);
-
-            _rootGO.SetActive(true);
             _stateRootGO.SetActive(true);
 
-            _data = (Data)data;
+            var endStateData = (Data)data;
+            ButtonLabelTextArea.text = _config.ButtonLabel;
+            _winFailTextArea.text = _config.GetMatchResult(endStateData.IsWin);
+            _playerStatusTextArea.text = string.Format(_config.ResultStatus, endStateData.Wins, endStateData.Fails);
         }
 
         public override void OnEnd()
         {
-            _restartButton.onClick.RemoveListener(Restart);
+            base.OnEnd();
 
-            _rootGO.SetActive(false);
+            _restartButton.onClick.RemoveListener(Restart);
             _stateRootGO.SetActive(false);
         }
 
-        private void Restart()
-        {
-            _data.MainScreen.ChangeToGameState();
-        }
+        private void Restart() => _mainScreen.ChangeToGameState();
     }
 }
 

@@ -12,24 +12,28 @@ namespace Core
 
         private BaseState _currentState;
 
-        public void ChangeToRulesState()
-        {
-            var data = new RulesState.Data(this, "someName", "SomeRules", "SomeButton");
-            _currentState = _currentState.Change(_rulesState, data);
-        }
+        public void ChangeToRulesState() =>
+            _currentState = _currentState.Change(_rulesState, new BaseState.Data());
 
         public void ChangeToGameState()
         {
-            var data = new GameState.Data(this, "someName", "someWord");
+            var data = new GameState.Data("someWord");
             _currentState = _currentState.Change(_gameState, data);
         }
 
-        public void ChangeToEndState()
+        public void ChangeToEndState(bool isWin, int wins, int fails)
         {
-            var data = new EndState.Data(this, "someName", true);
+            var data = new EndState.Data(isWin, wins, fails);
             _currentState = _currentState.Change(_endState, data);
         }
 
-        private void Start() => ChangeToRulesState();
+        private void Start()
+        {
+            _rulesState.Init(this);
+            _gameState.Init(this);
+            _endState.Init(this);
+
+            ChangeToRulesState();
+        }
     }
 }

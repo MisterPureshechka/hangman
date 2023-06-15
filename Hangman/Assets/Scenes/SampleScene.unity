@@ -787,6 +787,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7824712404331858973, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
   m_PrefabInstance: {fileID: 1979830256}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1979830258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7121890816089879849, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
+  m_PrefabInstance: {fileID: 1979830256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1979830259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1320679498066944789, guid: 6e98431bd0b4832428957f1631fcd72c, type: 3}
+  m_PrefabInstance: {fileID: 1979830256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1979830260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,18 +823,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rulesState:
     _screenNameTextArea: {fileID: 374841410}
+    _config: {fileID: 11400000, guid: 2081e8d5c8387b841890482e3d77cabc, type: 2}
     _rulesTextArea: {fileID: 1092204499}
     _playButton: {fileID: 1459090923}
     _rootGO: {fileID: 1713488054}
   _gameState:
     _screenNameTextArea: {fileID: 374841410}
+    _config: {fileID: 11400000, guid: e73bb345a1ff551478f6e2870c38a0d3, type: 2}
     _rootGO: {fileID: 134390339}
     _keyboardRootGO: {fileID: 331960424}
     _hangmanRootGO: {fileID: 214204076}
     _letterUnitGO: {fileID: 1221813265}
     _keyboardUnitGO: {fileID: 1822109365}
+    _playerStatusTextArea: {fileID: 1979830258}
   _endState:
     _screenNameTextArea: {fileID: 374841410}
+    _config: {fileID: 11400000, guid: 5b6c94fa6fa0dfe4c954deabc9c4be61, type: 2}
     _rootGO: {fileID: 134390339}
     _stateRootGO: {fileID: 51105374}
     _restartButton: {fileID: 1864887917}
+    _winFailTextArea: {fileID: 1979830259}
+    _playerStatusTextArea: {fileID: 1979830258}

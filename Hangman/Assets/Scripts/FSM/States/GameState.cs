@@ -1,4 +1,4 @@
-using Core;
+using Data;
 
 using System;
 using System.Collections.Generic;
@@ -10,26 +10,25 @@ using UnityEngine.UI;
 namespace FSM.States
 {
     [Serializable]
-    public class GameState : BaseState
+    public sealed class GameState : BaseState
     {
-        public new class Data : BaseState.Data
+        public sealed new class Data : BaseState.Data
         {
             private readonly string _targetWord;
             public string TargetWord => _targetWord;
 
-            public Data(MainScreen mainScreen, string screenName, string targetWord)
-                : base(mainScreen, screenName)
-            {
-                _targetWord = targetWord;
-            }
+            public Data(string targetWord) => _targetWord = targetWord;
         }
 
-        [SerializeField] private GameObject _rootGO;
+        [SerializeField] private GameStateConfig _config;
+
         [SerializeField] private GameObject _keyboardRootGO;
         [SerializeField] private GameObject _hangmanRootGO;
 
         [SerializeField] private GameObject _letterUnitGO;
         [SerializeField] private GameObject _keyboardUnitGO;
+
+        [SerializeField] private Text _playerStatusTextArea;
 
         private Data _data;
 
@@ -37,6 +36,10 @@ namespace FSM.States
         private readonly List<GameObject> _keys = new();
 
         private int _lives;
+        private int _wins;
+        private int _fails;
+
+        protected override BaseStateConfig Config => _config;
 
         public override void OnStart(BaseState.Data data)
         {
@@ -47,7 +50,7 @@ namespace FSM.States
             _letterUnitGO.SetActive(false);
             foreach (var c in _data.TargetWord)
             {
-                var letterGO = GameObject.Instantiate(_letterUnitGO, _letterUnitGO.transform.parent);
+                var letterGO = UnityEngine.Object.Instantiate(_letterUnitGO, _letterUnitGO.transform.parent);
                 var letterLabel = letterGO.GetComponentInChildren<Text>();
 
                 letterLabel.text = c.ToString();
@@ -60,7 +63,7 @@ namespace FSM.States
             _keyboardUnitGO.SetActive(false);
             for (char c = 'A'; c <= 'Z'; c++)
             {
-                var buttonGO = GameObject.Instantiate(_keyboardUnitGO, _keyboardUnitGO.transform.parent);
+                var buttonGO = UnityEngine.Object.Instantiate(_keyboardUnitGO, _keyboardUnitGO.transform.parent);
                 var buttonLabel = buttonGO.GetComponentInChildren<Text>();
                 var button = buttonGO.GetComponentInChildren<Button>();
 
@@ -76,21 +79,22 @@ namespace FSM.States
             for (var i = 0; i < _hangmanRootGO.transform.childCount; i++)
                 _hangmanRootGO.transform.GetChild(i).gameObject.SetActive(false);
 
-            _rootGO.SetActive(true);
             _keyboardRootGO.SetActive(true);
+
+            _playerStatusTextArea.text = string.Format(_config.ResultStatus, _wins, _fails);
         }
 
         public override void OnEnd()
         {
-            _rootGO.SetActive(false);
+            base.OnEnd();
             _keyboardRootGO.SetActive(false);
 
             for (var i = 0; i < _letters.Count; i++)
-                GameObject.Destroy(_letters[i]);
+                UnityEngine.Object.Destroy(_letters[i]);
             _letters.Clear();
 
             for (var i = 0; i < _keys.Count; i++)
-                GameObject.Destroy(_keys[i]);
+                UnityEngine.Object.Destroy(_keys[i]);
             _keys.Clear();
         }
 
@@ -109,7 +113,10 @@ namespace FSM.States
                         isWin = false;
                 }
                 if (isWin)
-                    _data.MainScreen.ChangeToEndState();
+                {
+                    _wins++;
+                    _mainScreen.ChangeToEndState(true, _wins, _fails);
+                }
             }
             else
             {
@@ -119,7 +126,10 @@ namespace FSM.States
                     _hangmanRootGO.transform.GetChild(i).gameObject.SetActive(_lives < (_hangmanRootGO.transform.childCount - i));
 
                 if (_lives <= 0)
-                    _data.MainScreen.ChangeToEndState();
+                {
+                    _fails++;
+                    _mainScreen.ChangeToEndState(false, _wins, _fails);
+                }
             }
         }
     }

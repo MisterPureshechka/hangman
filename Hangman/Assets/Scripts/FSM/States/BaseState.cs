@@ -1,5 +1,7 @@
 using Core;
 
+using Data;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,26 +19,31 @@ namespace FSM.States
 
     public abstract class BaseState 
     {
-        public class Data
-        {
-            private readonly MainScreen _mainScreen;
-            public MainScreen MainScreen => _mainScreen;
-
-            private readonly string _screenName;
-            public string ScreenName => _screenName;
-
-            public Data(MainScreen mainScreen, string screenName)
-            {
-                _mainScreen = mainScreen;
-                _screenName = screenName;
-            }
-        }
+        public class Data { }
 
         [SerializeField] protected Text _screenNameTextArea;
+        [SerializeField] private GameObject _rootGO;
 
-        public virtual void OnStart(Data data) => _screenNameTextArea.text = data.ScreenName;
+        protected MainScreen _mainScreen;
 
-        public abstract void OnEnd();
+        protected abstract BaseStateConfig Config { get; }
+
+        public void Init(MainScreen mainScreen)
+        {
+            _mainScreen = mainScreen;
+        }
+
+        public virtual void OnStart(Data data)
+        {
+            _screenNameTextArea.text = Config.ScreenName;
+
+            _rootGO.SetActive(true);
+        }
+
+        public virtual void OnEnd()
+        {
+            _rootGO.SetActive(false);
+        }
     }
 }
 
