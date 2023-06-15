@@ -13,13 +13,10 @@ namespace Core
         private BaseState _currentState;
 
         public void ChangeToRulesState() =>
-            _currentState = _currentState.Change(_rulesState, new BaseState.Data());
+            _currentState = _currentState.Change(_rulesState);
 
-        public void ChangeToGameState()
-        {
-            var data = new GameState.Data("someWord");
-            _currentState = _currentState.Change(_gameState, data);
-        }
+        public void ChangeToGameState() =>
+            _currentState = _currentState.Change(_gameState);
 
         public void ChangeToEndState(bool isWin, int wins, int fails)
         {

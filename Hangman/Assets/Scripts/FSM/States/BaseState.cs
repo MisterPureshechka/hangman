@@ -9,7 +9,7 @@ namespace FSM.States
 {
     public static class BaseStateExt
     {
-        public static BaseState Change(this BaseState currentState, BaseState newState, BaseState.Data data)
+        public static BaseState Change(this BaseState currentState, BaseState newState, BaseState.Data data = null)
         {
             currentState?.OnEnd();
             newState.OnStart(data);
@@ -28,10 +28,7 @@ namespace FSM.States
 
         protected abstract BaseStateConfig Config { get; }
 
-        public void Init(MainScreen mainScreen)
-        {
-            _mainScreen = mainScreen;
-        }
+        public void Init(MainScreen mainScreen) => _mainScreen = mainScreen;
 
         public virtual void OnStart(Data data)
         {
@@ -40,10 +37,7 @@ namespace FSM.States
             _rootGO.SetActive(true);
         }
 
-        public virtual void OnEnd()
-        {
-            _rootGO.SetActive(false);
-        }
+        public virtual void OnEnd() => _rootGO.SetActive(false);
     }
 }
 
